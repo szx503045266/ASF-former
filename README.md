@@ -2,7 +2,7 @@
 
 ### Update:
 ***27/04/2022***
-- The paper is posted on [Arxiv](https://arxiv.org/abs/2204.12196) and the code is released.
+- The paper is posted on [arXiv](https://arxiv.org/abs/2204.12196) and the code is released.
 
 ## 1. Requirements
 timm==0.3.4
@@ -14,7 +14,7 @@ torchvision
 pyyaml
 
 ### Data Preparation
-[ImageNet](https://image-net.org/) with following folder structure.
+[ImageNet](https://image-net.org/) with following folder structure:
 
 ```
 │imagenet/
