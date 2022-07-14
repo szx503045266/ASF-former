@@ -2,7 +2,7 @@
 
 ### Update:
 ***27/04/2022***
-- The code is released.
+- The paper is posted on [arXiv](https://arxiv.org/abs/2204.12196) and the code is released.
 
 ## 1. Requirements
 timm==0.3.4
@@ -77,6 +77,17 @@ CUDA_VISIBLE_DEVICES=0,1 python transfer_learning.py --lr 0.05 --b 64 --num-clas
 Transfer ASF-former-B to CIFAR-100:
 ```
 CUDA_VISIBLE_DEVICES=0,1 python transfer_learning.py --lr 0.05 --b 64 --num-classes 100 --img-size 224 --transfer-learning True --transfer-model path/to/model --dataset cifar100 --model ASF_former_B
+```
+
+## Citation
+```
+@article{Su2022AdaptiveST,
+  title={Adaptive Split-Fusion Transformer},
+  author={Zixuan Su and Hao Zhang and Jingjing Chen and Lei Pang and Chong-Wah Ngo and Yu-Gang Jiang},
+  journal={ArXiv},
+  year={2022},
+  volume={abs/2204.12196}
+}
 ```
 
 Our codes are based on [T2T-ViT](https://github.com/yitu-opensource/T2T-ViT).
