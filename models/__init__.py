@@ -4,3 +4,4 @@
 # LICENSE file in the root directory of this file
 # All rights reserved.
 from .asf_former import *
+from .asf_former_p import *

@@ -1,6 +1,9 @@
 # Adaptive Split-Fusion Transformer
 
 ### Update:
+***31/08/2022***
+- Add the code for ImageNet-21k pretrained weights loading.
+- Add the code for the pyramid version model ASF-former_p.
 ***27/04/2022***
 - The paper is posted on [arXiv](https://arxiv.org/abs/2204.12196) and the code is released.
 
@@ -46,6 +49,16 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./distributed_train.sh 8 path/to/data --mod
 Train ASF-former-B with 8 GPUs:
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./distributed_train.sh 8 path/to/data --model ASF_former_B -b 64 --lr 5e-4 --weight-decay .065 --amp --img-size 224
+```
+
+Train ASF-former_p-S with 8 GPUs:
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./distributed_train.sh 8 /data/imagenet --model ASF_former_p_S -b 64 --lr 5e-4 --weight-decay .05 --amp --img-size 224
+```
+
+Train ASF-former_p-B with 8 GPUs:
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./distributed_train.sh 8 /data/imagenet --model ASF_former_p_B -b 64 --lr 5e-4 --weight-decay .065 --amp --img-size 22
 ```
 
 ## 4. Evaluation

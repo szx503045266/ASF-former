@@ -45,8 +45,10 @@ parser.add_argument('data', metavar='DIR',
                     help='path to dataset')
 parser.add_argument('--model', default='T2t_vit_14', type=str, metavar='MODEL',
                     help='Name of model to train (default: "countception"')
-parser.add_argument('--pretrained', action='store_true', default=False,
-                    help='Start with pretrained version of specified network (if avail)')
+#parser.add_argument('--pretrained', action='store_true', default=False,
+                    #help='Start with pretrained version of specified network (if avail)')
+parser.add_argument('--pretrained', default='', type=str, metavar='PATH',
+                    help='Initialize model from pretrained model (default: none)')
 parser.add_argument('--initial-checkpoint', default='', type=str, metavar='PATH',
                     help='Initialize model from this checkpoint (default: none)')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
@@ -432,6 +434,7 @@ def main():
         _logger.info('Scheduled epochs: {}'.format(num_epochs))
 
     train_dir = os.path.join(args.data, 'train')
+    #train_dir = args.data
     if not os.path.exists(train_dir):
         _logger.error('Training folder does not exist at: {}'.format(train_dir))
         exit(1)
@@ -568,13 +571,15 @@ def main():
                 distribute_bn(model, args.world_size, args.dist_bn == 'reduce')
 
             eval_metrics = validate(model, loader_eval, validate_loss_fn, args, amp_autocast=amp_autocast)
+            #eval_metrics = OrderedDict([('loss', 1), ('top1', epoch), ('top5', epoch)])
 
             if model_ema is not None and not args.model_ema_force_cpu:
                 if args.distributed and args.dist_bn in ('broadcast', 'reduce'):
                     distribute_bn(model_ema, args.world_size, args.dist_bn == 'reduce')
                 ema_eval_metrics = validate(
                     model_ema.ema, loader_eval, validate_loss_fn, args, amp_autocast=amp_autocast, log_suffix=' (EMA)')
-                eval_metrics = ema_eval_metrics
+                #eval_metrics = ema_eval_metrics
+                #eval_metrics = OrderedDict([('loss', 1), ('top1', epoch), ('top5', epoch)])
 
             if lr_scheduler is not None:
                 # step LR for next epoch
@@ -583,10 +588,17 @@ def main():
             update_summary(
                 epoch, train_metrics, eval_metrics, os.path.join(output_dir, 'summary.csv'),
                 write_header=best_metric is None)
+            if model_ema is not None:
+                update_summary(
+                    epoch, train_metrics, ema_eval_metrics, os.path.join(output_dir, 'summary_ema.csv'),
+                    write_header=best_metric is None)
 
             if saver is not None:
                 # save proper checkpoint with eval metric
-                save_metric = eval_metrics[eval_metric]
+                if model_ema is not None:
+                    save_metric = ema_eval_metrics[eval_metric]
+                else:
+                    save_metric = eval_metrics[eval_metric]
                 best_metric, best_epoch = saver.save_checkpoint(epoch, metric=save_metric)
 
     except KeyboardInterrupt:

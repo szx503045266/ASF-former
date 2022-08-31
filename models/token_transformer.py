@@ -28,7 +28,7 @@ class Attention(nn.Module):
     def forward(self, x):
         B, N, C = x.shape
 
-        qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, self.in_dim).permute(2, 0, 3, 1, 4)
+        qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, self.in_dim//self.num_heads).permute(2, 0, 3, 1, 4)
         q, k, v = qkv[0], qkv[1], qkv[2]
 
         attn = (q * self.scale) @ k.transpose(-2, -1)
@@ -40,7 +40,8 @@ class Attention(nn.Module):
         x = self.proj_drop(x)
 
         # skip connection
-        x = v.squeeze(1) + x   # because the original x has different size with current x, use v to do skip connection
+        v = v.transpose(1, 2).reshape(B, N, self.in_dim)
+        x = v + x   # because the original x has different size with current x, use v to do skip connection
 
         return x
 

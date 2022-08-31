@@ -16,6 +16,7 @@ import numpy as np
 from .token_transformer import Token_transformer, Token_CNN, ASF_R_Encoder
 from .token_performer import Token_performer
 from .transformer_block import Block, Block_conv, ASF_C_Encoder, get_sinusoid_encoding
+from .utils import load_21k_pretrained
 
 def _cfg(url='', **kwargs):
     return {
@@ -237,8 +238,14 @@ def ASF_former_S(pretrained=False, **kwargs):
 
 @register_model
 def ASF_former_B(pretrained=False, **kwargs):
+    if pretrained:
+        kwargs.setdefault('qk_scale', 512 ** -0.5)
     model = ASF_former(tokens_type='transformer', embed_dim=512, depth=24, num_heads=8, mlp_ratio=3., ASF=True, conv_init=True, **kwargs)
     model.default_cfg = default_cfgs['ASF_former_B']
+    if pretrained:
+        state_dict = load_21k_pretrained(
+            pretrained, model, use_ema=True, num_classes=model.num_classes)
+        model.load_state_dict(state_dict, strict=False)
     return model
 
 @register_model
