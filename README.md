@@ -4,6 +4,7 @@
 ***31/08/2022***
 - Add the code for ImageNet-21k pretrained weights loading.
 - Add the code for the pyramid version model ASF-former_p.
+
 ***27/04/2022***
 - The paper is posted on [arXiv](https://arxiv.org/abs/2204.12196) and the code is released.
 
