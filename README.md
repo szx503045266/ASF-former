@@ -1,6 +1,9 @@
 # Adaptive Split-Fusion Transformer
 
 ### Update:
+***19/02/2024***
+- Release the pretrained model weights.
+
 ***31/08/2022***
 - Add the code for ImageNet-21k pretrained weights loading.
 - Add the code for the pyramid version model ASF-former_p.
@@ -38,7 +41,18 @@ pyyaml
 
 ## 2. Pretrained Models
 
-The pretrained models will be released soon.
+ImageNet-1K Training:
+|Model|Params|Top-1|
+|-----|-----|-----|
+|ASF-former-S|19.3M|[82.7%](https://drive.google.com/file/d/1Chx_Bi-pZJReP-WbB0loNxY_9tTWSVTb/view?usp=drive_link)|
+|ASF-former-B|56.7M|[83.9%](https://drive.google.com/file/d/1se0gBrXRFUOAuYvHZhEqDWP4KPdwE0NL/view?usp=drive_link)|
+|ASF-former_p-S|21.3M|[83.0%](https://drive.google.com/file/d/1o1nn3es1mAtYHlRGfuaaM4968_RqgeVa/view?usp=drive_link)|
+|ASF-former_p-B|58.9M|[83.9%](https://drive.google.com/file/d/1yBA4r4-hB-F7-_UGGBjbrA2SKqKrirci/view?usp=drive_link)|
+
+ImageNet-22K Pretraining + ImageNet-1K Fine-tuning:
+|Model|Params|Top-1|
+|-----|-----|-----|
+|ASF-former-B|56.7M|[85.2%](https://drive.google.com/file/d/1xE3xFcYRY1ffczSA4LmJYc268GV1D4eV/view?usp=drive_link)|
 
 ## 3. Training
 
